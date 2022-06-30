@@ -17,27 +17,21 @@ import org.springframework.web.bind.annotation.*;
 public class TestController {
 
     @Autowired
-    OrgInfoEntityRepo orgInfoEntityRepo;
-    @Autowired
     UsersRepo usersRepo;
 
 
     @GetMapping("/add")
-    public String addOrg(@RequestParam String orgName){
-        OrgInfoEntity orgInfoEntity = new OrgInfoEntity();
-        orgInfoEntity.setOrgName(orgName);
-        orgInfoEntityRepo.save(orgInfoEntity);
-
+    public String addUser(@RequestParam String username){
         UsersEntity usersEntity = new UsersEntity();
-        usersEntity.setName(orgName);
+        usersEntity.setName(username);
         usersRepo.save(usersEntity);
         return "success";
     }
 
     @GetMapping("/search")
-    public OrgInfoEntity searchOrg(@RequestParam String orgName){
-        OrgInfoEntity orgInfoEntity = orgInfoEntityRepo.findByOrgName(orgName);
-        return orgInfoEntity;
+    public UsersEntity searchUser(@RequestParam String username){
+        UsersEntity usersEntity = usersRepo.findByName(username);
+        return usersEntity;
     }
 
 

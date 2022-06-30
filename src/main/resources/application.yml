@@ -6,14 +6,13 @@ spring:
       #主从库别名
       names: master, slave
       master:
-        #nullNamePatternMatchesAll=true 处理找不到表父类的问题
-        jdbc-url: jdbc:mysql://118.31.59.77:3307/slave-test?useUnicode=true&characterEncoding=utf8&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&nullNamePatternMatchesAll=true
+        jdbc-url: jdbc:mysql://118.31.59.77:3307/slave-test?useUnicode=true&characterEncoding=utf8&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
         driver-class-name: com.mysql.cj.jdbc.Driver
         type: com.zaxxer.hikari.HikariDataSource
         username: root
         password: "123456"
       slave:
-        jdbc-url: jdbc:mysql://118.31.59.77:3308/slave-test?useUnicode=true&characterEncoding=utf8&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&nullNamePatternMatchesAll=true
+        jdbc-url: jdbc:mysql://118.31.59.77:3308/slave-test?useUnicode=true&characterEncoding=utf8&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
         driver-class-name: com.mysql.cj.jdbc.Driver
         type: com.zaxxer.hikari.HikariDataSource
         username: root

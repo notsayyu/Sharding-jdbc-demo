@@ -17,8 +17,6 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//@MappedSuperclass
-//@OptimisticLocking
 public class UsersEntity{
 
     @Id
