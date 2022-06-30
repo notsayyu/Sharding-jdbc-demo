@@ -1,0 +1,70 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true #当遇到同样名字的时候，是否允许覆盖注册
+  shardingsphere:
+    datasource:
+      #主从库别名
+      names: master, slave
+      master:
+        #nullNamePatternMatchesAll=true 处理找不到表父类的问题
+        jdbc-url: jdbc:mysql://118.31.59.77:3307/slave-test?useUnicode=true&characterEncoding=utf8&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&nullNamePatternMatchesAll=true
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        type: com.zaxxer.hikari.HikariDataSource
+        username: root
+        password: "123456"
+      slave:
+        jdbc-url: jdbc:mysql://118.31.59.77:3308/slave-test?useUnicode=true&characterEncoding=utf8&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&nullNamePatternMatchesAll=true
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        type: com.zaxxer.hikari.HikariDataSource
+        username: root
+        password: "123456"
+    #数据分表规则
+    #指定所需分的表
+    sharding:
+      master-slave-rules: #主从规则
+        master: #数据库名称或者别名
+          master-data-source-name: master
+          slave-data-source-names: slave
+      tables: #分表规则
+        users: #需要分片的逻辑表
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+            props:
+              worker:
+                id: 1
+          actual-data-nodes: master.users$->{1..2} #数据库实际表
+          table-strategy:
+              inline:
+                sharding-column: id
+                algorithm-expression: users$->{id % 2 + 1}
+#              sharding-column: id
+#              sharding-algorithm-name: table_inline
+#              sharding-algorithms:
+#                table-inline:
+#                  type: INLINE
+#                  props:
+#                   algorithm-expression: users$->{id % 2}
+
+
+
+#    masterslave:
+#      name: ds_m_s
+#      #主从规则轮询
+#      load-balance-algorithm-type: round_robin
+#      master-data-source-name: master
+#      slave-data-source-names: slave
+
+    props:
+      sql.show: true #开启sql日志
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    database: mysql
+    show-sql: true
+    properties:
+      enable: true
+      bootstrap-mode: default
+      hibernate:
+        format_sql: true
+        enable_lazy_load_no_trans: true
